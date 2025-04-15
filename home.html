@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home - ToDo List</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body{
+        background-color: #116466;
+    }
+    
+   .todo-container {
+            max-width: 600px;
+            margin: auto;
+            background: #2c786c;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 40px;
+            margin-left: 22px;
+            }
+
+    .todo-container input[type="text"] {
+      width: 75%;
+      padding: 10px;
+      margin-right: 10px;
+    }
+
+    .todo-container button {
+      padding: 10px;
+    }
+
+    ul#taskList {
+      margin-top: 20px;
+      list-style: none;
+      padding: 0;
+    }
+
+    ul#taskList li {
+      background: #f2f2f2;
+      padding: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 6px;
+    }
+
+    ul#taskList li span {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    ul#taskList li input[type="text"] {
+      flex: 1;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="todo-container">
+    <h2>My ToDo List</h2>
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button onclick="addTask()">Add</button>
+
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    function addTask() {
+      const input = document.getElementById('taskInput');
+      const taskText = input.value.trim();
+
+      if (!taskText) return;
+
+      const li = document.createElement('li');
+
+      const span = document.createElement('span');
+      span.textContent = taskText;
+
+      const editBtn = document.createElement('button');
+      editBtn.textContent = 'Edit';
+      editBtn.onclick = function () {
+        if (editBtn.textContent === 'Edit') {
+          const inputBox = document.createElement('input');
+          inputBox.type = 'text';
+          inputBox.value = span.textContent;
+          li.insertBefore(inputBox, span);
+          li.removeChild(span);
+          editBtn.textContent = 'Save';
+        } else {
+          const inputBox = li.querySelector('input[type="text"]');
+          const updatedSpan = document.createElement('span');
+          updatedSpan.textContent = inputBox.value;
+          li.insertBefore(updatedSpan, inputBox);
+          li.removeChild(inputBox);
+          editBtn.textContent = 'Edit';
+        }
+      };
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.onclick = function () {
+        li.remove();
+      };
+
+      li.appendChild(span);
+      li.appendChild(editBtn);
+      li.appendChild(deleteBtn);
+
+      document.getElementById('taskList').appendChild(li);
+      input.value = '';
+    }
+  </script>
+</body>
+</html>
